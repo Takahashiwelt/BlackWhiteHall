@@ -22,7 +22,7 @@
 <script>
 title = "Black White Hole";
 
-description = `
+description = `[Mouse] :Move Hole and Man
 `;
 
 characters = [
@@ -63,6 +63,7 @@ const sin=[];
 
 function update() {
   if (!ticks) {
+    play("coin");
     dust.length=0;
     sin.length=0;
   }
