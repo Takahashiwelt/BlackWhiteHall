@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>crisp-game-lib</title>
+    <meta
+      name="viewport"
+      content="width=device-width, height=device-height,
+    user-scalable=no, initial-scale=1, maximum-scale=1"
+    />
+    <script src="https://unpkg.com/sounds-some-sounds@1.0.5/build/index.js"></script>
+    <script src="https://unpkg.com/gif-capture-canvas@1.1.0/build/index.js"></script>
+    <script src="https://unpkg.com/terser@4.6.11/dist/bundle.min.js"></script>
+    <script src="https://unpkg.com/pixi.js@5.3.0/dist/pixi.min.js"></script>
+    <script src="https://unpkg.com/pixi-filters@3.1.1/dist/pixi-filters.js"></script>
+    <script>
+      var module = {};
+    </script>
+    <script src="https://unpkg.com/lodash.clonedeep@4.5.0/index.js"></script>
+    <script src="https://abagames.github.io/crisp-game-lib/bundle.js"></script>
+
+<script>
+title = "Black White Hole";
+
+description = `
+`;
+
+characters = [
+  
+  `
+  ll
+  l
+ llll
+ ll
+  llll
+ll   l
+`,
+`
+ ll
+  l
+ llll
+   ll
+llll
+l   ll
+`,
+];
+
+options = {
+  viewSize: { x: 200, y: 100 },
+  theme:"dark",
+  isPlayingBgm: true,
+  isReplayEnabled: true,
+  seed:15,
+
+};
+let hall_y=0;
+let hall_x=0;
+let man_y=0;
+let man_x=0;
+let dif=0;
+const dust=[];
+const sin=[];
+
+function update() {
+  if (!ticks) {
+    dust.length=0;
+    sin.length=0;
+  }
+  //color("black");
+  //rect(0, 0, 100, 100);
+  color("blue");
+  rect(100, 0, 200, 90);
+  color("light_green");
+  rect(100, 90, 200, 100);
+  color("black");
+ 
+  //hallの位置
+  if(input.pos){
+    hall_x=input.pos.x;
+    if(hall_x>96){
+      hall_x=96;
+    }else if(hall_x<4){
+      hall_x=4;
+    }
+    hall_y=input.pos.y;
+  }
+  box(hall_x,hall_y,8+dif,8+dif);
+  
+  /*
+  if(box(hall_x,hall_y,8,8).isColliding.rect.yellow){
+    //text(`rect:${JSON.stringify(box(hall_x,hall_y,8,8).isColliding.text)}`, 5, 33);
+    addScore(1);
+  }
+  */
+
+  char("a",hall_x+100,87)
+
+
+  dust.forEach(e => {
+    color("yellow");
+    box(e.x, e.y,1,1)
+    /*
+    if(box(e.x, e.y,1,1).isColliding.rect.black){
+      addScore(1);
+    }
+    */
+  });
+  remove(dust,(e) => {
+    if(box(e.x, e.y,1,1).isColliding.rect.black){
+      addScore(1);
+      sin.push(vec(100+rnd(98), 0));
+      return true;
+    }
+  });
+  color("white");
+  sin.forEach(e =>{
+    if(text("*", e.x, e.y).isColliding.char.a){
+      end();
+    }
+    e.y++;
+  })
+  remove(sin, (e) => e.y > 92);
+  //text(dust.length,10,10);
+  if (ticks % 5 == 0) {
+    dust.push(vec(rnd(98), rnd(100)))
+  }
+
+  dif=score*0.05;
+}
+addEventListener("load", onLoad);
+</script>
+
+  </head>
+  <body style="background: #ddd"></body>
+</html>
