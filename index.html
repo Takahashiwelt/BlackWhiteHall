@@ -84,6 +84,11 @@ function update() {
       hall_x=4;
     }
     hall_y=input.pos.y;
+    if(hall_y>96){
+      hall_y=96;
+    }else if(hall_y<4){
+      hall_y=4;
+    }
   }
   box(hall_x,hall_y,8+dif,8+dif);
   
